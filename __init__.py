@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ###
 # -*- coding: utf-8 -*-
 #
@@ -30,6 +31,8 @@
 
 ###
 
+=======
+>>>>>>> 27385ac875470495fb852184f052e5004972b2d0
 """
 Shows some information about a trakt.tv account (see: www.trakt.tv)
 """
@@ -46,7 +49,11 @@ __author__ = supybot.Author("", "", "")
 # This is a dictionary mapping supybot.Author instances to lists of
 # contributions.
 __contributors__ = {
+<<<<<<< HEAD
             supybot.Author("", "", ""): ["profile"]
+=======
+            supybot.Author("Raymond Chandler", "intralanman", ""): ["profile"]
+>>>>>>> 27385ac875470495fb852184f052e5004972b2d0
         }
 
 # This is a url where the most recent plugin package can be downloaded.

@@ -20,8 +20,8 @@ class TraktTV(callbacks.PluginRegexp):
 
     socket.setdefaulttimeout(60)
 
-    APIURL = "http://api.trakt.tv"
     SITEURL = "http://trakt.tv"
+    APIURL = "http://api.trakt.tv"
 
     def __init__(self, irc):
         self.__parent = super(TraktTV, self)
@@ -121,7 +121,7 @@ class TraktTV(callbacks.PluginRegexp):
                 are = "is"
 
             irc.reply(("%d %s %s now watching: %s (%d) | %s | Rating: %d%%" % ( show["watchers"], people, are, show["title"], show["year"], show["url"], show["ratings"]["percentage"] )).encode("utf-8"))
-            if shows >= 5:
+            if shows >= self.registryValue("maxSearchResults"):
                 break
 
     ts = wrap(trendingShows, [optional("something")])
@@ -233,7 +233,6 @@ class TraktTV(callbacks.PluginRegexp):
 	    irc.reply("You are not currently watching anything.")
         
     nw = wrap(nw, [optional("something")])
-
 
     def episodeSearch(self, irc, msg, args, query):
         """<query>
