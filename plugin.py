@@ -234,6 +234,44 @@ class TraktTV(callbacks.PluginRegexp):
         
     nw = wrap(nw, [optional("something")])
 
+    def peopleSearch(self, irc, msg, args, query):
+	"""<query>
+	   Search for people including actors, directors, producers, and writers.
+	"""
+	if not self.keyCheck(irc):
+	    return False
+
+	url = "%s/search/people.json/%s/%s" % (self.APIURL, self.APIKEY, urllib.quote_plus(query))
+
+	try:
+	    f = urllib2.urlopen(url)
+	except urllib2.HTTPError, e:
+	    if e.code == 404:
+                irc.error("Nobody found by that name.")
+            print e.read()
+	    return
+        
+	data = simplejson.load(f)
+        if data:
+            found = "Found %d results" % len(data)
+	    if len(data) > self.registryValue("maxSearchResults"):
+	        found += (", returning the first %s.  More here: %s/search/people?q=%s" % (self.registryValue("maxSearchResults"), self.SITEURL, urllib.quote_plus(query)))
+
+	    irc.reply(found.encode("utf-8"))
+            people = 0
+            for person in data:
+                people += 1
+                irc.reply(("%s | %s" % \
+                    (person["name"], person["url"])).encode("utf-8"))
+
+                if people >= self.registryValue("maxSearchResults"):
+                    break
+        else:
+            irc.reply(("No people found matching: %s" % (query)).encode("utf-8"))
+	    
+    person = wrap(peopleSearch, ['text'])
+        
+
     def episodeSearch(self, irc, msg, args, query):
         """<query>
 	   Search for a given TV episode name
