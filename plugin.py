@@ -209,7 +209,7 @@ class TraktTV(callbacks.PluginRegexp):
                 movieSummary = self.movieSummary(self, irc, msg, data["movie"]["imdb_id"])
                 if movieSummary:
                     moviePercentage = movieSummary["ratings"]["percentage"]
-                    irc.reply(("You are now watching: %s (%d) | %s | %s%% | %s" % (data["movie"]["title"], data["movie"]["year"], certification, moviePercentage, data["movie"]["url"])).encode("utf-8"))
+                    irc.reply(("You are now watching: %s (%d) | %s | %d%% of %d votes | %s" % (data["movie"]["title"], data["movie"]["year"], certification, moviePercentage, movieSummary["ratings"]["votes"], data["movie"]["url"])).encode("utf-8"))
                 else:
                     irc.reply(("You are now watching: %s (%d) | %s | %s" % (data["movie"]["title"], data["movie"]["year"], certification, data["movie"]["url"])).encode("utf-8"))
 
@@ -224,8 +224,8 @@ class TraktTV(callbacks.PluginRegexp):
                     epVotes = episodeSummary["episode"]["ratings"]["votes"]
                     epLoved = episodeSummary["episode"]["ratings"]["loved"]
                     epHated  = episodeSummary["episode"]["ratings"]["hated"]
-                    irc.reply(("You are now watching: %s (%s) - %dx%d - %s | %s%%/%s%% | %s" % \
-			(data["show"]["title"], data["show"]["year"], data["episode"]["season"], data["episode"]["number"], data["episode"]["title"], showPercentage, epPercentage, data["episode"]["url"])).encode("utf-8"))
+                    irc.reply(("You are now watching: %s (%s) - %dx%d - %s | Show: %d%% of %d votes Ep: %d%% of %d votes | %s" % \
+			(data["show"]["title"], data["show"]["year"], data["episode"]["season"], data["episode"]["number"], data["episode"]["title"], showPercentage, showVotes, epPercentage, epVotes, data["episode"]["url"])).encode("utf-8"))
                 else:
                     irc.reply(("You are now watching: %s (%d) - %dx%d - %s | %s" % \
 			(data["show"]["title"], data["show"]["year"], data["episode"]["season"], data["episode"]["number"], data["episode"]["title"], data["episode"]["url"])).encode("utf-8"))
